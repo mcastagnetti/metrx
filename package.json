@@ -1,6 +1,6 @@
 {
     "name": "metrx",
-    "version": "1.1.1",
+    "version": "1.2.0",
     "description": "Tool to measure web page performance metrics",
     "author": "Marc-Olivier Castagnetti <marcolivier.castagnetti@gmail.com>",
     "repository": {
