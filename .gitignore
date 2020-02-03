@@ -5,5 +5,6 @@ yarn-error.log
 .DS_Store
 
 *.json
+!package.json
 *.csv
 *.txt
