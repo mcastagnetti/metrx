@@ -1,0 +1,9 @@
+node_modules
+screenshots/*.png
+.vscode
+yarn-error.log
+.DS_Store
+
+*.json
+*.csv
+*.txt
