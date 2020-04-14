@@ -11,8 +11,8 @@ const { RELEVANT_STATS } = require('./constants');
  * @param  {Array}  data The object containing the data we want to display.
  * @return {string} The ready to display table.
  */
-const buildTable = data => {
-    const head = [''].concat(RELEVANT_STATS.map(stat => chalk.blue(stat)));
+const buildTable = (data) => {
+    const head = [''].concat(RELEVANT_STATS.map((stat) => chalk.blue(stat)));
 
     for (const key in data) {
         if (!data.hasOwnProperty(key)) {
@@ -23,10 +23,10 @@ const buildTable = data => {
             head,
         });
 
-        data.forEach(entry => {
+        data.forEach((entry) => {
             table.push([
                 chalk.bold(entry.key),
-                ...RELEVANT_STATS.map(stat => toReadableValue(entry.key, entry.metrics[stat])),
+                ...RELEVANT_STATS.map((stat) => toReadableValue(entry.key, entry.metrics[stat])),
             ]);
         });
 
@@ -40,10 +40,10 @@ const buildTable = data => {
  * @param  {Array} data The object containing the data we want to convert to JSON.
  * @return {JSON}  The valid JSON Object.
  */
-const toJson = data => {
+const toJson = (data) => {
     const json = {};
 
-    data.forEach(metric => {
+    data.forEach((metric) => {
         const key = metric.key;
         const metrics = metric.metrics;
 
@@ -59,7 +59,7 @@ const toJson = data => {
  * @param  {Array}  data The object containing the data we want to convert to CSV.
  * @return {string} The CSV ready string.
  */
-const toCsv = data => {
+const toCsv = (data) => {
     let csv = '';
     const SEPARATOR = ',';
     const NEW_LINE = '\n';
@@ -68,7 +68,7 @@ const toCsv = data => {
 
     csv += `${SEPARATOR}${header.join(SEPARATOR)}${NEW_LINE}`;
 
-    data.forEach(metric => {
+    data.forEach((metric) => {
         csv += `${metric.key}${SEPARATOR}${Object.values(metric.metrics).join(SEPARATOR)}${NEW_LINE}`;
     });
 
@@ -90,7 +90,7 @@ const exportDataInFile = (data, fileExtension = 'txt', fileName) => {
         fileName += `.${fileExtension}`;
     }
 
-    fs.writeFile(fileName, data, error => {
+    fs.writeFile(fileName, data, (error) => {
         if (error) {
             throw error;
         }

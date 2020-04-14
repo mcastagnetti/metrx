@@ -4,9 +4,9 @@
 
 const program = require('commander');
 
-const start = require('./');
+const start = require('.');
 
-const { DEFAULT_REPEAT_TIMES, DEFAULT_OUTPUT_FORMAT, DEFAULT_VIEWPORT_SIZE } = require('./js/constants');
+const { DEFAULT_REPEAT_TIMES, DEFAULT_OUTPUT_FORMAT, DEFAULT_VIEWPORT_SIZE } = require('./src/constants');
 
 program
     .description('Measures web application loading metrics')

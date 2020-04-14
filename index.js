@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer');
 const ora = require('ora');
 
-const runMetricsExtracter = require('./js/runner');
+const runMetricsExtracter = require('./src/runner');
 
 const {
     DEFAULT_REPEAT_TIMES,
@@ -9,9 +9,9 @@ const {
     DEFAULT_OUTPUT_FORMAT,
     OUTPUT_FORMATS,
     URL_REGEX,
-} = require('./js/constants');
+} = require('./src/constants');
 
-const output = require('./js/output');
+const output = require('./src/output');
 
 module.exports = async function start(
     {

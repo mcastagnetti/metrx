@@ -20,6 +20,11 @@
     "bin": {
         "metrx": "./cli.js"
     },
+    "files": [
+        "cli.js",
+        "index.js",
+        "src"
+    ],
     "license": "MIT",
     "dependencies": {
         "chalk": "^4.0.0",

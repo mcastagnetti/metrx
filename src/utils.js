@@ -7,7 +7,7 @@ const statsFunction = require('./stats');
  * @param   {number} ms The number of milliseconds.
  * @returns {string} The readable value.
  */
-const addMsSuffix = ms => `${Math.floor(ms)} ms`;
+const addMsSuffix = (ms) => `${Math.floor(ms)} ms`;
 
 /**
  * Makes the diff between a time and the navigation start to get a usable time in ms.
@@ -43,8 +43,8 @@ const populateDataObject = (objectToPopulate, dataObject) => {
  *
  * @param {string} value The string to transform.
  */
-const toCamelCase = value => {
-    return value.replace(/(\-[a-z])/g, function($1) {
+const toCamelCase = (value) => {
+    return value.replace(/(\-[a-z])/g, function ($1) {
         return $1.toUpperCase().replace('-', '');
     });
 };
@@ -80,7 +80,7 @@ const translateMetrics = ({ metrics }) => {
  * @param  {Array}  data The data we'll build the stats on.
  * @return {Array}  The aggregated data.
  */
-const buildStats = data => {
+const buildStats = (data) => {
     const aggregatedData = [];
 
     // Then, make statistics over those metrics.
@@ -88,7 +88,7 @@ const buildStats = data => {
         const datas = data[key];
         const metrics = {};
 
-        RELEVANT_STATS.map(stat => {
+        RELEVANT_STATS.map((stat) => {
             const functionName = `get${stat.charAt(0).toUpperCase()}${stat.slice(1)}`;
 
             if (statsFunction[functionName] instanceof Function) {
@@ -112,7 +112,7 @@ const buildStats = data => {
  * @param   {number} bytes The number of bytes to convert.
  * @returns {string} The redable value.
  */
-const bytesToSize = bytes => {
+const bytesToSize = (bytes) => {
     var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
     if (bytes == 0) return '0 Byte';
     var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
