@@ -20,6 +20,7 @@ module.exports = async function start(
         height = DEFAULT_VIEWPORT_SIZE.HEIGHT,
         width = DEFAULT_VIEWPORT_SIZE.WIDTH,
         outputFormat = DEFAULT_OUTPUT_FORMAT.DEFAULT,
+        withRedirects = false,
         outputFile = false,
         customPath,
         waitUntil,
@@ -43,7 +44,7 @@ module.exports = async function start(
         spinner.text = `Extracting metrics ${step}/${repeat}`;
     };
 
-    const logInfo = log => {
+    const logInfo = (log) => {
         spinner.text = log;
     };
 
@@ -78,7 +79,15 @@ module.exports = async function start(
             await client.send('Performance.enable');
         }
 
-        const aggregatedData = await runMetricsExtracter(page, client, repeat, waitUntil, logStep);
+        const aggregatedData = await runMetricsExtracter({
+            page,
+            client,
+            url,
+            withRedirects,
+            repeat,
+            waitUntil,
+            logStep,
+        });
 
         spinner.stop();
 

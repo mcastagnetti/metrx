@@ -1,13 +1,12 @@
-const { populateDataObject, toCamelCase, translateMetrics, getRelevantTime } = require('./utils');
+const { toCamelCase, translateMetrics, getRelevantTime } = require('./utils');
 
 /**
  * Collect and extracts performance metrics.
  *
- * @param  {Object}  pageMetrics The object to populate.
- * @param  {Object}  page        The puppeteer page instance we are working with.
- * @param  {Object}  client      The puppeteer client instance we are working with.
+ * @param  {Object}  page   The puppeteer page instance we are working with.
+ * @param  {Object}  client The puppeteer client instance we are working with.
  */
-const extractPerformanceMetrics = async (pageMetrics, page, client) => {
+const extractPerformanceMetrics = async (page, client) => {
     let firstMeaningfulPaint = 0;
     let translatedMetrics;
 
@@ -20,7 +19,7 @@ const extractPerformanceMetrics = async (pageMetrics, page, client) => {
 
     const navigationStart = translatedMetrics.NavigationStart;
 
-    const extratedData = {
+    return {
         jsHeapUsedSize: translatedMetrics.JSHeapUsedSize,
         jsHeapTotalSize: translatedMetrics.JSHeapTotalSize,
         scriptDuration: translatedMetrics.ScriptDuration * 1000,
@@ -28,8 +27,6 @@ const extractPerformanceMetrics = async (pageMetrics, page, client) => {
         domContentLoaded: getRelevantTime(translatedMetrics.DomContentLoaded, navigationStart),
         ...(await extractPageTimings(page)),
     };
-
-    populateDataObject(pageMetrics, extratedData);
 };
 
 /**
@@ -38,7 +35,7 @@ const extractPerformanceMetrics = async (pageMetrics, page, client) => {
  * @param  {Object} page The puppeteer page instance we are working with.
  * @return {Object} The extracted relevant metrics.
  */
-const extractPageTimings = async page => {
+const extractPageTimings = async (page) => {
     // Get timing performance metrics from the `window` object.
     const performanceTimings = JSON.parse(await page.evaluate(() => JSON.stringify(window.performance.timing)));
     const paintTimings = JSON.parse(await page.evaluate(() => JSON.stringify(performance.getEntriesByType('paint'))));
@@ -47,11 +44,11 @@ const extractPageTimings = async page => {
     const relevantDataKeys = ['domInteractive', 'loadEventEnd', 'responseEnd'];
     const relevantData = {};
 
-    relevantDataKeys.forEach(name => {
+    relevantDataKeys.forEach((name) => {
         relevantData[name] = performanceTimings[name] - navigationStart;
     });
 
-    paintTimings.forEach(timing => {
+    paintTimings.forEach((timing) => {
         relevantData[toCamelCase(timing.name)] = timing.startTime;
     });
 

@@ -49,6 +49,7 @@ Several options are available to enhance metrics easily. Use `-h (--help)` to di
     -o, --output-format [output-format]  The desired output format (default: table)
     --output-file [output-file]          Whether we want to export data in a file, and the desired path to the file
     --wait-until [wait-until]            The waitUntil value of the Page.reload options accepted by puppeteer
+    --with-redirects                     Whether we want to test the timings of the whole redirect chain
     --no-headless                        Defines if we dont want to use puppeteer headless mode
     --no-sandbox                         Disable chrome sandbox mode, mandatory in some systems
     -h, --help                           Output usage information

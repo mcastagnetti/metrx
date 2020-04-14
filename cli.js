@@ -12,7 +12,7 @@ program
     .description('Measures web application loading metrics')
     .usage('<url> [options] ')
     .arguments('<url>')
-    .action(url => {
+    .action((url) => {
         program.url = url;
     })
     .option('-r, --repeat [n]', 'The number of times the page metrics are measured', DEFAULT_REPEAT_TIMES)
@@ -22,11 +22,12 @@ program
     .option('-o, --output-format [output-format]', 'The desired output format', DEFAULT_OUTPUT_FORMAT.CLI)
     .option('--output-file [output-file]', 'Whether we want to export data in a file, and the desired path to the file')
     .option('--wait-until [wait-until]', 'The waitUntil value of the Page.reload options accepted by puppeteer')
+    .option('--with-redirects', 'Whether we want to test the timings of the whole redirect chain')
     .option('--no-headless', 'Defines if we dont want to use puppeteer headless mode')
     .option('--no-sandbox', 'Disable chrome sandbox mode, mandatory in some systems')
     .parse(process.argv);
 
-const errorHandler = error => {
+const errorHandler = (error) => {
     console.error(error);
     process.exit(1);
 };
@@ -36,7 +37,7 @@ if (!program.url) {
     process.exit(1);
 } else {
     try {
-        start(program, errorHandler).then(output => {
+        start(program, errorHandler).then((output) => {
             console.log(output);
         });
     } catch (error) {
