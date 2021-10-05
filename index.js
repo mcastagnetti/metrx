@@ -1,19 +1,19 @@
-const puppeteer = require('puppeteer');
-const ora = require('ora');
+import puppeteer from 'puppeteer';
+import ora from 'ora';
 
-const runMetricsExtracter = require('./src/runner');
+import runMetricsExtracter from './src/runner.js';
 
-const {
+import {
     DEFAULT_REPEAT_TIMES,
     DEFAULT_VIEWPORT_SIZE,
     DEFAULT_OUTPUT_FORMAT,
     OUTPUT_FORMATS,
     URL_REGEX,
-} = require('./src/constants');
+} from './src/constants.js';
 
-const output = require('./src/output');
+import output from './src/output.js';
 
-module.exports = async function start(
+export default async function start(
     {
         url,
         repeat = DEFAULT_REPEAT_TIMES,

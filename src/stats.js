@@ -4,7 +4,7 @@
  * @param  {Array}  values The array of values.
  * @return {number} The median value.
  */
-const getMedian = (values) => {
+export const getMedian = (values) => {
     values.sort((a, b) => a - b);
     const pivot = Math.floor(values.length / 2);
 
@@ -17,7 +17,7 @@ const getMedian = (values) => {
  * @param  {Array}  values The array of values.
  * @return {number} The average value.
  */
-const getAverage = (values) => values.reduce((a, b) => a + b, 0) / values.length;
+export const getAverage = (values) => values.reduce((a, b) => a + b, 0) / values.length;
 
 /**
  * Calculate standard deviation for an array of raw values.
@@ -25,7 +25,7 @@ const getAverage = (values) => values.reduce((a, b) => a + b, 0) / values.length
  * @param  {Array}  values The array of values to get the standard deviation from.
  * @return {number} The stantdard deviation.
  */
-const getStandardDeviation = (values) => {
+export const getStandardDeviation = (values) => {
     const avg = getAverage(values);
     const squareDiffs = values.map((value) => Math.pow(value - avg, 2));
 
@@ -38,7 +38,7 @@ const getStandardDeviation = (values) => {
  * @param  {Array}  values The array of values to get the max value from.
  * @return {number} The max value
  */
-const getMax = (values) => Math.max(...values);
+export const getMax = (values) => Math.max(...values);
 
 /**
  * Get min value.
@@ -46,12 +46,4 @@ const getMax = (values) => Math.max(...values);
  * @param  {Array}  values The array of values to get the max value from.
  * @return {number} The max value
  */
-const getMin = (values) => Math.min(...values);
-
-module.exports = {
-    getAverage,
-    getMedian,
-    getStandardDeviation,
-    getMax,
-    getMin,
-};
+export const getMin = (values) => Math.min(...values);

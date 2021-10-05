@@ -1,9 +1,9 @@
-const fs = require('fs');
-const Table = require('cli-table');
-const chalk = require('chalk');
+import fs from 'fs';
+import Table from 'cli-table';
+import chalk from 'chalk';
 
-const { toReadableValue } = require('./utils');
-const { RELEVANT_STATS } = require('./constants');
+import { toReadableValue } from './utils.js';
+import { RELEVANT_STATS } from './constants.js';
 
 /**
  * Build a table ready for the console output.
@@ -97,7 +97,7 @@ const exportDataInFile = (data, fileExtension = 'txt', fileName) => {
     });
 };
 
-module.exports = (data, format, outputFile) => {
+export default (data, format, outputFile) => {
     let formatedData;
     let fileExtension;
 
