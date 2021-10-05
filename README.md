@@ -141,7 +141,7 @@ git clone https://github.com/mcastagnetti/metrx.git
 
 cd metrx
 
-yarn install
+npm install
 ```
 
 Then, to use `metrx` just run it via `cli.js`, for example :
