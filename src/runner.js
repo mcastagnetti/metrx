@@ -1,5 +1,5 @@
-const { extractPerformanceMetrics } = require('./metrics');
-const { buildStats, populateDataObject } = require('./utils');
+import { extractPerformanceMetrics } from './metrics.js';
+import { buildStats, populateDataObject } from './utils.js';
 
 /**
  * Extracts the page metrics as many time as the repeat parameter and build statistics aroud it.
@@ -15,7 +15,7 @@ const { buildStats, populateDataObject } = require('./utils');
  * @param  {Function} logStep       Functions to display the correct step in the console.
  * @return {Object}   Statistics about collected metrics.
  */
-module.exports = async ({ page, client, url, withRedirects, repeat, waitUntil = 'load', logStep }) => {
+export default async ({ page, client, url, withRedirects, repeat, waitUntil = 'load', logStep }) => {
     let i = 0;
     const data = {};
 

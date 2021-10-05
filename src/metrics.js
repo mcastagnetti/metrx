@@ -1,33 +1,4 @@
-const { toCamelCase, translateMetrics, getRelevantTime } = require('./utils');
-
-/**
- * Collect and extracts performance metrics.
- *
- * @param  {Object}  page   The puppeteer page instance we are working with.
- * @param  {Object}  client The puppeteer client instance we are working with.
- */
-const extractPerformanceMetrics = async (page, client) => {
-    let firstMeaningfulPaint = 0;
-    let translatedMetrics;
-
-    while (firstMeaningfulPaint === 0) {
-        await page.waitFor(100);
-        let performanceMetrics = await client.send('Performance.getMetrics');
-        translatedMetrics = translateMetrics(performanceMetrics);
-        firstMeaningfulPaint = translatedMetrics.FirstMeaningfulPaint;
-    }
-
-    const navigationStart = translatedMetrics.NavigationStart;
-
-    return {
-        jsHeapUsedSize: translatedMetrics.JSHeapUsedSize,
-        jsHeapTotalSize: translatedMetrics.JSHeapTotalSize,
-        scriptDuration: translatedMetrics.ScriptDuration * 1000,
-        firstMeaningfulPaint: getRelevantTime(firstMeaningfulPaint, navigationStart),
-        domContentLoaded: getRelevantTime(translatedMetrics.DomContentLoaded, navigationStart),
-        ...(await extractPageTimings(page)),
-    };
-};
+import { toCamelCase, translateMetrics, getRelevantTime } from './utils.js';
 
 /**
  * Extract metrics which are accessible via the `window` object.
@@ -35,7 +6,7 @@ const extractPerformanceMetrics = async (page, client) => {
  * @param  {Object} page The puppeteer page instance we are working with.
  * @return {Object} The extracted relevant metrics.
  */
-const extractPageTimings = async (page) => {
+ const extractPageTimings = async (page) => {
     // Get timing performance metrics from the `window` object.
     const performanceTimings = JSON.parse(await page.evaluate(() => JSON.stringify(window.performance.timing)));
     const paintTimings = JSON.parse(await page.evaluate(() => JSON.stringify(performance.getEntriesByType('paint'))));
@@ -60,6 +31,31 @@ const extractPageTimings = async (page) => {
     };
 };
 
-module.exports = {
-    extractPerformanceMetrics,
+/**
+ * Collect and extracts performance metrics.
+ *
+ * @param  {Object}  page   The puppeteer page instance we are working with.
+ * @param  {Object}  client The puppeteer client instance we are working with.
+ */
+export const extractPerformanceMetrics = async (page, client) => {
+    let firstMeaningfulPaint = 0;
+    let translatedMetrics;
+
+    while (firstMeaningfulPaint === 0) {
+        await page.waitFor(100);
+        let performanceMetrics = await client.send('Performance.getMetrics');
+        translatedMetrics = translateMetrics(performanceMetrics);
+        firstMeaningfulPaint = translatedMetrics.FirstMeaningfulPaint;
+    }
+
+    const navigationStart = translatedMetrics.NavigationStart;
+
+    return {
+        jsHeapUsedSize: translatedMetrics.JSHeapUsedSize,
+        jsHeapTotalSize: translatedMetrics.JSHeapTotalSize,
+        scriptDuration: translatedMetrics.ScriptDuration * 1000,
+        firstMeaningfulPaint: getRelevantTime(firstMeaningfulPaint, navigationStart),
+        domContentLoaded: getRelevantTime(translatedMetrics.DomContentLoaded, navigationStart),
+        ...(await extractPageTimings(page)),
+    };
 };

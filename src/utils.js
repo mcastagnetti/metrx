@@ -1,5 +1,5 @@
-const { BYTES_BASED_VALUES, RELEVANT_STATS } = require('./constants');
-const statsFunction = require('./stats');
+import { BYTES_BASED_VALUES, RELEVANT_STATS } from './constants.js';
+import * as statsFunctions from './stats.js';
 
 /**
  * Convert raw ms values to readable values.
@@ -16,7 +16,7 @@ const addMsSuffix = (ms) => `${Math.floor(ms)} ms`;
  * @param  {integer} navigationStart The navigation time.
  * @return {integer} The difference between time variable and navigation time.
  */
-const getRelevantTime = (time, navigationStart) => (time - navigationStart) * 1000;
+export const getRelevantTime = (time, navigationStart) => (time - navigationStart) * 1000;
 
 /**
  * Populates a data object. An array of values will be associated to each key.
@@ -24,7 +24,7 @@ const getRelevantTime = (time, navigationStart) => (time - navigationStart) * 10
  * @param {Object} objectToPopulate The object containing all the data as key => Array<value>
  * @param {Object} dataObject       The object contanin the key => value pair.
  */
-const populateDataObject = (objectToPopulate, dataObject) => {
+export const populateDataObject = (objectToPopulate, dataObject) => {
     objectToPopulate = objectToPopulate || {};
 
     for (const key in dataObject) {
@@ -43,7 +43,7 @@ const populateDataObject = (objectToPopulate, dataObject) => {
  *
  * @param {string} value The string to transform.
  */
-const toCamelCase = (value) => {
+export const toCamelCase = (value) => {
     return value.replace(/(\-[a-z])/g, function ($1) {
         return $1.toUpperCase().replace('-', '');
     });
@@ -56,7 +56,7 @@ const toCamelCase = (value) => {
  * @param  {value}  value The metric's value.
  * @return {string} The ready to display value.
  */
-const toReadableValue = (key, value) => (BYTES_BASED_VALUES.includes(key) ? bytesToSize(value) : addMsSuffix(value));
+export const toReadableValue = (key, value) => (BYTES_BASED_VALUES.includes(key) ? bytesToSize(value) : addMsSuffix(value));
 
 /**
  * Transforms the metrics Object into a more readable object.
@@ -64,7 +64,7 @@ const toReadableValue = (key, value) => (BYTES_BASED_VALUES.includes(key) ? byte
  * @param  {Object} metrics The metrics Object we get from Chrome Dev Tools.
  * @return {Object} The correctly translated metrics.
  */
-const translateMetrics = ({ metrics }) => {
+export const translateMetrics = ({ metrics }) => {
     return metrics.reduce((obj, item) => {
         return {
             ...obj,
@@ -80,7 +80,7 @@ const translateMetrics = ({ metrics }) => {
  * @param  {Array}  data The data we'll build the stats on.
  * @return {Array}  The aggregated data.
  */
-const buildStats = (data) => {
+export const buildStats = (data) => {
     const aggregatedData = [];
 
     // Then, make statistics over those metrics.
@@ -91,8 +91,8 @@ const buildStats = (data) => {
         RELEVANT_STATS.map((stat) => {
             const functionName = `get${stat.charAt(0).toUpperCase()}${stat.slice(1)}`;
 
-            if (statsFunction[functionName] instanceof Function) {
-                metrics[stat] = statsFunction[functionName](datas);
+            if (statsFunctions[functionName] instanceof Function) {
+                metrics[stat] = statsFunctions[functionName](datas);
             }
         });
 
@@ -112,19 +112,9 @@ const buildStats = (data) => {
  * @param   {number} bytes The number of bytes to convert.
  * @returns {string} The redable value.
  */
-const bytesToSize = (bytes) => {
-    var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+export const bytesToSize = (bytes) => {
+    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
     if (bytes == 0) return '0 Byte';
-    var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+    const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
     return `${parseFloat(bytes / Math.pow(1024, i)).toFixed(2)} ${sizes[i]}`;
-};
-
-module.exports = {
-    bytesToSize,
-    buildStats,
-    getRelevantTime,
-    populateDataObject,
-    toCamelCase,
-    toReadableValue,
-    translateMetrics,
 };

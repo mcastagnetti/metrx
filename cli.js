@@ -1,12 +1,8 @@
-#!/usr/bin/env node
+import program from 'commander';
 
-'use strict';
+import start from './index.js';
 
-const program = require('commander');
-
-const start = require('.');
-
-const { DEFAULT_REPEAT_TIMES, DEFAULT_OUTPUT_FORMAT, DEFAULT_VIEWPORT_SIZE } = require('./src/constants');
+import { DEFAULT_REPEAT_TIMES, DEFAULT_OUTPUT_FORMAT, DEFAULT_VIEWPORT_SIZE } from './src/constants.js';
 
 program
     .description('Measures web application loading metrics')

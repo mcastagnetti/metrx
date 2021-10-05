@@ -16,7 +16,7 @@
         "cli",
         "measures"
     ],
-    "main": "index.js",
+    "exports": "./index.js",
     "bin": {
         "metrx": "./cli.js"
     },
@@ -26,6 +26,10 @@
         "src"
     ],
     "license": "MIT",
+    "type": "module",
+    "engines": {
+        "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
+    },
     "dependencies": {
         "chalk": "^4.1.2",
         "cli-table": "^0.3.6",
