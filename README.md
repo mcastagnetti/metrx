@@ -1,10 +1,8 @@
 # metrx
 
-Source code was formerly hosted on https://github.com/lumapps/metrx.
+This tool measures any web application performances.
 
-This tool measures any web application performances. This project uses [Puppeteer](https://github.com/GoogleChrome/puppeteer) to make painless automation.
-
-You can read this [great article](https://michaljanaszek.com/blog/test-website-performance-with-puppeteer) written by `Michał Janaszek` for further information.
+This project uses [Puppeteer](https://github.com/GoogleChrome/puppeteer) to make painless automation.
 
 <p align="center">
     <br>
