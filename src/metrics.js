@@ -42,7 +42,7 @@ export const extractPerformanceMetrics = async (page, client) => {
     let translatedMetrics;
 
     while (firstMeaningfulPaint === 0) {
-        await page.waitFor(100);
+        await page.waitForTimeout(100);
         let performanceMetrics = await client.send('Performance.getMetrics');
         translatedMetrics = translateMetrics(performanceMetrics);
         firstMeaningfulPaint = translatedMetrics.FirstMeaningfulPaint;
