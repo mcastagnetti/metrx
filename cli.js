@@ -33,7 +33,7 @@ if (!program.url) {
     process.exit(1);
 } else {
     try {
-        start(program, errorHandler).then((output) => {
+        start({ ...program.opts(), url: program.url }, errorHandler).then((output) => {
             console.log(output);
         });
     } catch (error) {
