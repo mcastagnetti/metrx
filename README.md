@@ -62,23 +62,23 @@ This option can be useful if you need to be logged in before being able to acces
 To include your file into the process, just use `-c <relative path to your file>` option.
 
 ```bash
-metrx localhost:8000 -c '../../custom-path.js'
+metrx localhost:8000 -c '../../custom-path.mjs'
 ```
 
-The `custom-path.js` file shoud contain an exported CommonJS module.
+The `custom-path.mjs` file must be an ES module that exports an async function as default export.
 
 ```javascript
 // index.js: The custom path function is called like so :
 if (customPath) {
-    const customPathFunction = require(customPath);
-    await customPathFunction(page, logInfo);
+    const customPathFunction = import(customPath);
+    await customPathFunction.default(page, logInfo);
 }
 
 // custom-path.js: example of login process
 const LOGIN_INPUT = 'input[type="login"]';
 const PASSWORD_INPUT = 'input[type="password"]';
 
-module.exports = async (page, logInfo) => {
+export default async (page, logInfo) => {
     const login = 'my-secret-login';
     const password = 'my-really-secret-password';
     const loginUrl = 'http://localhost:8080/login';
