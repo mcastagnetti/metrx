@@ -65,8 +65,8 @@ export default async function start(
         let client;
 
         if (customPath) {
-            const customPathFunction = require(customPath);
-            await customPathFunction(page, logInfo);
+            const customPathFunction = await import(customPath);
+            await customPathFunction.default(page, logInfo);
         }
 
         // If we want tu use a custom url, reach it before making metrics.
