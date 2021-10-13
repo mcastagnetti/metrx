@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import program from 'commander';
 
 import start from './index.js';
