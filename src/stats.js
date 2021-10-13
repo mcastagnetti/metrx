@@ -5,10 +5,10 @@
  * @return {number} The median value.
  */
 export const getMedian = (values) => {
-    values.sort((a, b) => a - b);
-    const pivot = Math.floor(values.length / 2);
+  values.sort((a, b) => a - b);
+  const pivot = Math.floor(values.length / 2);
 
-    return values.length % 2 ? values[pivot] : (values[pivot - 1] + values[pivot]) / 2;
+  return values.length % 2 ? values[pivot] : (values[pivot - 1] + values[pivot]) / 2;
 };
 
 /**
@@ -26,10 +26,10 @@ export const getAverage = (values) => values.reduce((a, b) => a + b, 0) / values
  * @return {number} The stantdard deviation.
  */
 export const getStandardDeviation = (values) => {
-    const avg = getAverage(values);
-    const squareDiffs = values.map((value) => Math.pow(value - avg, 2));
+  const avg = getAverage(values);
+  const squareDiffs = values.map((value) => Math.pow(value - avg, 2));
 
-    return Math.sqrt(getAverage(squareDiffs));
+  return Math.sqrt(getAverage(squareDiffs));
 };
 
 /**

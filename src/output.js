@@ -12,26 +12,26 @@ import { RELEVANT_STATS } from './constants.js';
  * @return {string} The ready to display table.
  */
 const buildTable = (data) => {
-    const head = [''].concat(RELEVANT_STATS.map((stat) => chalk.blue(stat)));
+  const head = [''].concat(RELEVANT_STATS.map((stat) => chalk.blue(stat)));
 
-    for (const key in data) {
-        if (!data.hasOwnProperty(key)) {
-            return;
-        }
-
-        const table = new Table({
-            head,
-        });
-
-        data.forEach((entry) => {
-            table.push([
-                chalk.bold(entry.key),
-                ...RELEVANT_STATS.map((stat) => toReadableValue(entry.key, entry.metrics[stat])),
-            ]);
-        });
-
-        return table.toString();
+  for (const key in data) {
+    if (!data.hasOwnProperty(key)) {
+      return;
     }
+
+    const table = new Table({
+      head,
+    });
+
+    data.forEach((entry) => {
+      table.push([
+        chalk.bold(entry.key),
+        ...RELEVANT_STATS.map((stat) => toReadableValue(entry.key, entry.metrics[stat])),
+      ]);
+    });
+
+    return table.toString();
+  }
 };
 
 /**
@@ -41,16 +41,16 @@ const buildTable = (data) => {
  * @return {JSON}  The valid JSON Object.
  */
 const toJson = (data) => {
-    const json = {};
+  const json = {};
 
-    data.forEach((metric) => {
-        const key = metric.key;
-        const metrics = metric.metrics;
+  data.forEach((metric) => {
+    const key = metric.key;
+    const metrics = metric.metrics;
 
-        json[key] = metrics;
-    });
+    json[key] = metrics;
+  });
 
-    return JSON.stringify(json);
+  return JSON.stringify(json);
 };
 
 /**
@@ -60,19 +60,19 @@ const toJson = (data) => {
  * @return {string} The CSV ready string.
  */
 const toCsv = (data) => {
-    let csv = '';
-    const SEPARATOR = ',';
-    const NEW_LINE = '\n';
+  let csv = '';
+  const SEPARATOR = ',';
+  const NEW_LINE = '\n';
 
-    let header = Object.keys(data[0].metrics);
+  let header = Object.keys(data[0].metrics);
 
-    csv += `${SEPARATOR}${header.join(SEPARATOR)}${NEW_LINE}`;
+  csv += `${SEPARATOR}${header.join(SEPARATOR)}${NEW_LINE}`;
 
-    data.forEach((metric) => {
-        csv += `${metric.key}${SEPARATOR}${Object.values(metric.metrics).join(SEPARATOR)}${NEW_LINE}`;
-    });
+  data.forEach((metric) => {
+    csv += `${metric.key}${SEPARATOR}${Object.values(metric.metrics).join(SEPARATOR)}${NEW_LINE}`;
+  });
 
-    return csv;
+  return csv;
 };
 
 /**
@@ -83,47 +83,47 @@ const toCsv = (data) => {
  * @param {string}       [fileName]      The desired file name.
  */
 const exportDataInFile = (data, fileExtension = 'txt', fileName) => {
-    fileName = fileName === true ? `${+new Date()}.${fileExtension}` : fileName;
+  fileName = fileName === true ? `${+new Date()}.${fileExtension}` : fileName;
 
-    // Make sure we get the good file extension.
-    if (fileName.slice(-fileExtension.length) !== fileExtension) {
-        fileName += `.${fileExtension}`;
+  // Make sure we get the good file extension.
+  if (fileName.slice(-fileExtension.length) !== fileExtension) {
+    fileName += `.${fileExtension}`;
+  }
+
+  fs.writeFile(fileName, data, (error) => {
+    if (error) {
+      throw error;
     }
-
-    fs.writeFile(fileName, data, (error) => {
-        if (error) {
-            throw error;
-        }
-    });
+  });
 };
 
 export default (data, format, outputFile) => {
-    let formatedData;
-    let fileExtension;
+  let formatedData;
+  let fileExtension;
 
-    switch (format) {
-        case 'table':
-            formatedData = buildTable(data);
-            break;
+  switch (format) {
+    case 'table':
+      formatedData = buildTable(data);
+      break;
 
-        case 'json':
-            formatedData = toJson(data);
-            fileExtension = 'json';
-            break;
+    case 'json':
+      formatedData = toJson(data);
+      fileExtension = 'json';
+      break;
 
-        case 'csv':
-            formatedData = toCsv(data);
-            fileExtension = 'csv';
-            break;
+    case 'csv':
+      formatedData = toCsv(data);
+      fileExtension = 'csv';
+      break;
 
-        default:
-            formatedData = data;
-            break;
-    }
+    default:
+      formatedData = data;
+      break;
+  }
 
-    if (outputFile) {
-        exportDataInFile(formatedData, fileExtension, outputFile);
-    }
+  if (outputFile) {
+    exportDataInFile(formatedData, fileExtension, outputFile);
+  }
 
-    return formatedData;
+  return formatedData;
 };

@@ -16,34 +16,34 @@ import { buildStats, populateDataObject } from './utils.js';
  * @return {Object}   Statistics about collected metrics.
  */
 export default async ({ page, client, url, withRedirects, repeat, waitUntil = 'load', logStep }) => {
-    let i = 0;
-    const data = {};
+  let i = 0;
+  const data = {};
 
-    while (i < repeat) {
-        logStep(i + 1, repeat);
+  while (i < repeat) {
+    logStep(i + 1, repeat);
 
-        if (withRedirects) {
-            await page.goto(url, {
-                waitUntil: waitUntil.split(','),
-            });
-        } else {
-            await page.reload({
-                waitUntil: waitUntil.split(','),
-            });
-        }
-
-        const extractedMetrics = await extractPerformanceMetrics(page, client);
-
-        const { navigationStart } = JSON.parse(await page.evaluate(() => JSON.stringify(window.performance.timing)));
-        const end = Date.now();
-
-        populateDataObject(data, {
-            ...extractedMetrics,
-            total: end - navigationStart,
-        });
-
-        i++;
+    if (withRedirects) {
+      await page.goto(url, {
+        waitUntil: waitUntil.split(','),
+      });
+    } else {
+      await page.reload({
+        waitUntil: waitUntil.split(','),
+      });
     }
 
-    return buildStats(data);
+    const extractedMetrics = await extractPerformanceMetrics(page, client);
+
+    const { navigationStart } = JSON.parse(await page.evaluate(() => JSON.stringify(window.performance.timing)));
+    const end = Date.now();
+
+    populateDataObject(data, {
+      ...extractedMetrics,
+      total: end - navigationStart,
+    });
+
+    i++;
+  }
+
+  return buildStats(data);
 };
