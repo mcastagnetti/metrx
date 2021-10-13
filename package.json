@@ -16,7 +16,7 @@
         "cli",
         "measures"
     ],
-    "exports": "./index.js",
+    "main": "./index.js",
     "bin": {
         "metrx": "./cli.js"
     },
