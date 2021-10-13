@@ -25,17 +25,17 @@ export const getRelevantTime = (time, navigationStart) => (time - navigationStar
  * @param {Object} dataObject       The object contanin the key => value pair.
  */
 export const populateDataObject = (objectToPopulate, dataObject) => {
-    objectToPopulate = objectToPopulate || {};
+  objectToPopulate = objectToPopulate || {};
 
-    for (const key in dataObject) {
-        const value = dataObject[key];
+  for (const key in dataObject) {
+    const value = dataObject[key];
 
-        if (objectToPopulate[key]) {
-            objectToPopulate[key].push(value);
-        } else {
-            objectToPopulate[key] = [value];
-        }
+    if (objectToPopulate[key]) {
+      objectToPopulate[key].push(value);
+    } else {
+      objectToPopulate[key] = [value];
     }
+  }
 };
 
 /**
@@ -44,9 +44,9 @@ export const populateDataObject = (objectToPopulate, dataObject) => {
  * @param {string} value The string to transform.
  */
 export const toCamelCase = (value) => {
-    return value.replace(/(\-[a-z])/g, function ($1) {
-        return $1.toUpperCase().replace('-', '');
-    });
+  return value.replace(/(\-[a-z])/g, function ($1) {
+    return $1.toUpperCase().replace('-', '');
+  });
 };
 
 /**
@@ -56,7 +56,8 @@ export const toCamelCase = (value) => {
  * @param  {value}  value The metric's value.
  * @return {string} The ready to display value.
  */
-export const toReadableValue = (key, value) => (BYTES_BASED_VALUES.includes(key) ? bytesToSize(value) : addMsSuffix(value));
+export const toReadableValue = (key, value) =>
+  BYTES_BASED_VALUES.includes(key) ? bytesToSize(value) : addMsSuffix(value);
 
 /**
  * Transforms the metrics Object into a more readable object.
@@ -65,12 +66,12 @@ export const toReadableValue = (key, value) => (BYTES_BASED_VALUES.includes(key)
  * @return {Object} The correctly translated metrics.
  */
 export const translateMetrics = ({ metrics }) => {
-    return metrics.reduce((obj, item) => {
-        return {
-            ...obj,
-            [item.name]: item.value,
-        };
-    }, {});
+  return metrics.reduce((obj, item) => {
+    return {
+      ...obj,
+      [item.name]: item.value,
+    };
+  }, {});
 };
 
 /**
@@ -81,28 +82,28 @@ export const translateMetrics = ({ metrics }) => {
  * @return {Array}  The aggregated data.
  */
 export const buildStats = (data) => {
-    const aggregatedData = [];
+  const aggregatedData = [];
 
-    // Then, make statistics over those metrics.
-    for (const key in data) {
-        const datas = data[key];
-        const metrics = {};
+  // Then, make statistics over those metrics.
+  for (const key in data) {
+    const datas = data[key];
+    const metrics = {};
 
-        RELEVANT_STATS.map((stat) => {
-            const functionName = `get${stat.charAt(0).toUpperCase()}${stat.slice(1)}`;
+    RELEVANT_STATS.map((stat) => {
+      const functionName = `get${stat.charAt(0).toUpperCase()}${stat.slice(1)}`;
 
-            if (statsFunctions[functionName] instanceof Function) {
-                metrics[stat] = statsFunctions[functionName](datas);
-            }
-        });
+      if (statsFunctions[functionName] instanceof Function) {
+        metrics[stat] = statsFunctions[functionName](datas);
+      }
+    });
 
-        aggregatedData.push({
-            key,
-            metrics,
-        });
-    }
+    aggregatedData.push({
+      key,
+      metrics,
+    });
+  }
 
-    return aggregatedData;
+  return aggregatedData;
 };
 
 /**
@@ -113,8 +114,8 @@ export const buildStats = (data) => {
  * @returns {string} The redable value.
  */
 export const bytesToSize = (bytes) => {
-    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-    if (bytes == 0) return '0 Byte';
-    const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
-    return `${parseFloat(bytes / Math.pow(1024, i)).toFixed(2)} ${sizes[i]}`;
+  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+  if (bytes == 0) return '0 Byte';
+  const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+  return `${parseFloat(bytes / Math.pow(1024, i)).toFixed(2)} ${sizes[i]}`;
 };
