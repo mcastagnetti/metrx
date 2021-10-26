@@ -38,10 +38,14 @@
         "puppeteer": "^10.4.0"
     },
     "devDependencies": {
+        "ava": "^3.15.0",
         "eslint": "^8.0.0",
         "eslint-config-prettier": "^8.3.0",
         "eslint-plugin-node": "^11.1.0",
         "eslint-plugin-prettier": "^4.0.0",
         "prettier": "2.4.1"
+    },
+    "scripts": {
+        "test": "ava"
     }
 }
