@@ -31,15 +31,16 @@
         "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
     },
     "dependencies": {
-        "chalk": "^5.0.1",
+        "chalk": "^5.1.2",
+        "cli-progress": "^3.11.2",
         "cli-table": "^0.3.11",
         "commander": "^9.4.1",
         "ora": "^6.1.2",
-        "puppeteer": "^18.0.5"
+        "puppeteer": "^19.2.0"
     },
     "devDependencies": {
-        "ava": "^4.3.3",
-        "eslint": "^8.24.0",
+        "ava": "^5.0.1",
+        "eslint": "^8.26.0",
         "eslint-config-prettier": "^8.5.0",
         "eslint-plugin-node": "^11.1.0",
         "eslint-plugin-prettier": "^4.2.1",
