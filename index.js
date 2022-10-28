@@ -1,4 +1,3 @@
-import puppeteer from 'puppeteer';
 import ora from 'ora';
 
 import runMetricsExtracter from './src/runner.js';
@@ -12,6 +11,8 @@ import {
 } from './src/constants.js';
 
 import output from './src/output.js';
+import { createBrowser } from './src/browser.js';
+import { createLightHouseReport } from './src/lighthouse.js';
 
 export default async function start(
   {
@@ -48,10 +49,7 @@ export default async function start(
     spinner.text = log;
   };
 
-  const browser = await puppeteer.launch({
-    headless,
-    args: sandbox ? undefined : ['--no-sandbox'],
-  });
+  const browser = await createBrowser({ headless, sandbox });
 
   const page = await browser.newPage();
 
@@ -88,6 +86,10 @@ export default async function start(
       waitUntil,
       logStep,
     });
+
+    spinner.text = `Gathering lighthouse data...`;
+
+    const lighthouseData = await createLightHouseReport({ browser, page });
 
     spinner.stop();
 

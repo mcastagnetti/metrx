@@ -34,6 +34,7 @@
         "chalk": "^5.0.1",
         "cli-table": "^0.3.11",
         "commander": "^9.4.1",
+        "lighthouse": "^9.6.7",
         "ora": "^6.1.2",
         "puppeteer": "^18.0.5"
     },

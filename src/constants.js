@@ -16,5 +16,7 @@ export const OUTPUT_FORMATS = ['raw', 'json', 'table', 'csv'];
 
 export const RELEVANT_STATS = ['average', 'median', 'min', 'max', 'standardDeviation'];
 
+export const LIGHTHOUSE_METRICS = ['first-contentful-paint', 'first-meaningful-paint', 'speed-index'];
+
 export const URL_REGEX =
   /([a-z]{1,2}tps?):\/\/((?:(?!(?:\/|#|\?|&)).)+)(?:(\/(?:(?:(?:(?!(?:#|\?|&)).)+\/))?))?(?:((?:(?!(?:\.|$|\?|#)).)+))?(?:(\.(?:(?!(?:\?|$|#)).)+))?(?:(\?(?:(?!(?:$|#)).)+))?(?:(#.+))?/g;
