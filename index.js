@@ -102,8 +102,6 @@ export default async function start(
       logStep,
     });
 
-    spinner.stop();
-
     await browser.close();
 
     return output(aggregatedData, outputFormat, outputFile);
