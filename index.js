@@ -1,5 +1,6 @@
 import puppeteer from 'puppeteer';
 import ora from 'ora';
+import { SingleBar } from 'cli-progress';
 
 import runMetricsExtracter from './src/runner.js';
 
@@ -40,8 +41,20 @@ export default async function start(
 
   const spinner = ora('Launching Browser').start();
 
+  const bar = new SingleBar();
+
   const logStep = (step, repeat) => {
-    spinner.text = `Extracting metrics ${step}/${repeat}`;
+    const ceil = parseInt(repeat, 10);
+
+    if (step === 1) {
+      spinner.stop();
+      bar.start(ceil, step);
+    } else if (step === ceil) {
+      bar.update(step);
+      bar.stop();
+    } else {
+      bar.update(step);
+    }
   };
 
   const logInfo = (log) => {
